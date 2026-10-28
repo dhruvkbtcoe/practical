@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Marks</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f4f4f4; }
+    nav { background: #222; padding: 15px; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; }
+    input { padding: 8px; margin: 5px; }
+    button { padding: 9px 20px; background: orange; border: none; color: white; }
+    table { margin: 20px auto; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid gray; padding: 10px 20px; }
+    th { background: orange; color: white; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#form">Add Student</a>
+    <a href="#records">Records</a>
+  </nav>
+
+  <h1 id="form">Student Marks</h1>
+
+  <form onsubmit="addStudent(event)">
+    <input type="text" id="name" placeholder="Name"
+           pattern="[A-Za-z ]+" title="Only letters and spaces allowed" required><br>
+    <input type="number" id="roll" placeholder="Roll No" min="1" required><br>
+    <input type="number" id="m1" placeholder="Maths" min="0" max="100" required><br>
+    <input type="number" id="m2" placeholder="Science" min="0" max="100" required><br>
+    <input type="number" id="m3" placeholder="English" min="0" max="100" required><br>
+    <button type="submit">Add Student</button>
+  </form>
+
+  <h2 id="records">Records</h2>
+  <table>
+    <tr>
+      <th>Roll No</th>
+      <th>Name</th>
+      <th>Total</th>
+      <th>Percentage</th>
+    </tr>
+    <tbody id="body"></tbody>
+  </table>
+
+  <h2>Topper: <span id="topper">-</span></h2>
+
+  <script>
+    var topperName = "";
+    var topperRoll = "";
+    var topperTotal = 0;
+
+    function addStudent(e) {
+      e.preventDefault();
+
+      var name = document.getElementById("name").value;
+      var roll = document.getElementById("roll").value;
+      var m1 = Number(document.getElementById("m1").value);
+      var m2 = Number(document.getElementById("m2").value);
+      var m3 = Number(document.getElementById("m3").value);
+
+      var total = m1 + m2 + m3;
+      var percentage = total / 3;
+
+      document.getElementById("body").innerHTML +=
+        "<tr><td>" + roll + "</td><td>" + name + "</td><td>" + total +
+        "</td><td>" + percentage.toFixed(2) + "%</td></tr>";
+
+      if (total > topperTotal) {
+        topperTotal = total;
+        topperName = name;
+        topperRoll = roll;
+      }
+      document.getElementById("topper").innerText =
+        topperName + " (Roll No: " + topperRoll + ")";
+
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>
